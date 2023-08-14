@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 contract myContract is ERC1155, Ownable, ERC1155Supply, Pausable {
 
     constructor()
-    ERC1155("https://bafybeidlrbnewpy5dttzmv5rvhuwd5duja4vqavty3pnwi3v3z22f5vzau.ipfs.w3s.link/")
+    ERC1155("https://ipfs.io/ipfs/bafybeiawadna4crtpagegyqfpxskq4xhglkh7r6egeb257sa3kff2d7zlq/")
     {}
 
 // Create a struct to hold the event information
