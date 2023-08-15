@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 
-contract myContract is ERC1155, Ownable, ERC1155Supply, Pausable {
+contract TkTBlock is ERC1155, Ownable, ERC1155Supply, Pausable {
 
     constructor()
     ERC1155("https://ipfs.io/ipfs/bafybeidlf22wc73c75gdqnl26wvjzhykwglx5djiyjdgqplclrnxxlbk3m/")
