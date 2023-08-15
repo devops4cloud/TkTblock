@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 contract myContract is ERC1155, Ownable, ERC1155Supply, Pausable {
 
     constructor()
-    ERC1155("https://ipfs.io/ipfs/bafybeiawadna4crtpagegyqfpxskq4xhglkh7r6egeb257sa3kff2d7zlq/")
+    ERC1155("https://ipfs.io/ipfs/bafybeidlf22wc73c75gdqnl26wvjzhykwglx5djiyjdgqplclrnxxlbk3m/")
     {}
 
     // Create a struct to hold the event information
@@ -125,7 +125,7 @@ contract myContract is ERC1155, Ownable, ERC1155Supply, Pausable {
     }
     //Adding a contract level URI for OpenSea compatibility
     function contractURI() public pure returns (string memory){
-            return "https://ipfs.io/ipfs/bafybeiawadna4crtpagegyqfpxskq4xhglkh7r6egeb257sa3kff2d7zlq/collection.json";
+            return "https://ipfs.io/ipfs/bafybeidlf22wc73c75gdqnl26wvjzhykwglx5djiyjdgqplclrnxxlbk3m/collection.json";
 
     }
 
