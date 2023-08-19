@@ -6,99 +6,85 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/finance/PaymentSplitter.sol";
 
-contract TkTBlock is ERC1155, Ownable, ERC1155Supply, Pausable {
+contract TkTBlock is ERC1155, Ownable, ERC1155Supply, Pausable, PaymentSplitter{
 
-    constructor()
+    constructor(
+        address[] memory _payees,
+        uint256[] memory _shares 
+    )
     ERC1155("https://ipfs.io/ipfs/bafybeidlf22wc73c75gdqnl26wvjzhykwglx5djiyjdgqplclrnxxlbk3m/")
+    PaymentSplitter(_payees, _shares)
     {}
 
     // Create a struct to hold the event information
     struct Event {
-        uint _event_Id;
+        uint128 _event_Id;
         string _eventName;
         string _eventDate; 
         string _eventVenue;
-        uint256 _eventTicketPrice;
-        uint256 _eventTicketSupply;
+        uint128 _eventTicketPrice;
+        uint128 _eventTicketSupply;
         string _eventURL;
-        uint256 _eventTicketSold;
-
+        uint128 _eventTicketSold;
+        address _eventHolder;
     }
+
     // Create a mapping of events with the identifiers
     mapping(uint => Event) public events;
 
 
     // Create a function to add a new event
 
-    function addEvent(uint _id, string memory _eventName, string memory _eventDate, string memory _eventVenue, uint256 _eventTicketPrice, uint256 _eventTicketSupply,string memory _eventURL, uint256 _eventTicketSold) public {
-            events[_id] = Event(_id, _eventName, _eventDate, _eventVenue, _eventTicketPrice, _eventTicketSupply, _eventURL, _eventTicketSold);
+    function addEvent(uint128 _id, string memory _eventName, string memory _eventDate, string memory _eventVenue, uint128 _eventTicketPrice, uint128 _eventTicketSupply,string memory _eventURL, uint128 _eventTicketSold, address _eventHolder) public {
+            events[_id] = Event(_id, _eventName, _eventDate, _eventVenue, _eventTicketPrice, _eventTicketSupply, _eventURL, _eventTicketSold, _eventHolder);
 
     }
-
     // Create a function to get details about the event
-    function getEventDetails(uint _id) external view returns (uint, string  memory, string memory, string memory, uint256, uint256,string memory, uint256) {
+    function getEventDetails(uint128 _id) external view returns (uint, string  memory, string memory, string memory, uint128, uint128,string memory, uint128, address) {
             Event storage _event = events[_id];
-            return (_event._event_Id,_event._eventName,_event._eventDate, _event._eventVenue, _event._eventTicketPrice, _event._eventTicketSupply, _event._eventURL, _event._eventTicketSold );
-
+            return (_event._event_Id,_event._eventName,_event._eventDate, _event._eventVenue, _event._eventTicketPrice, _event._eventTicketSupply, _event._eventURL, _event._eventTicketSold, _event._eventHolder);
     }
 
     // Create a function to get event id
-    function getEventId(uint _id) public view returns (uint){
+    function getEventId(uint128 _id) public view returns (uint128){
         Event memory _eventa = events[_id];
         return _eventa._event_Id;
 
     }
-
-    // Create a function to get event name
-    function getEventName(uint _id) public view returns (string memory){
-        Event memory _eventa = events[_id];
-        return _eventa._eventName;
-
+    // Create a function to get event holder
+    function getEventHolder(uint128 _id) public view returns (address){
+       Event memory _eventa = events[_id];
+       return _eventa._eventHolder;
     }
-    // Create a function to update event name
-    function updateEventName(uint _id, string memory _eName) public {
-        Event storage _eventa = events[_id];
-        _eventa._eventName = _eName;
-    }
+
     // Create a function to get the ticket price
-    function getEventTicketPrice(uint _id) public view returns (uint){
+    function getEventTicketPrice(uint128 _id) public view returns (uint128){
         Event memory _eventa = events[_id];
         return _eventa._eventTicketPrice;
 
     }
-    // Create a function to update the ticket price
-    function updateEventTicketPrice(uint _id, uint _eventTicketPrice) public {
-        Event storage _eventa = events[_id];
-        _eventa._eventTicketPrice = _eventTicketPrice;
-    }
     // Create a function to get the ticket supply
-    function getEventTicketSupply(uint _id) public view returns (uint){
+    function getEventTicketSupply(uint128 _id) public view returns (uint128){
         Event memory _eventa = events[_id];
         return _eventa._eventTicketSupply;
 
     }
-    // Create a function to update the ticket supply
-    function updateEventTicketSupply(uint _id, uint _eventTicketSupply) public {
-        Event storage _eventa = events[_id];
-        _eventa._eventTicketSupply = _eventTicketSupply;
-    }
-
     // Create a function to get the amount of tickets sold 
-    function getEventTicketSold(uint _id) public view returns (uint){
+    function getEventTicketSold(uint128 _id) public view returns (uint128){
         Event memory _eventa = events[_id];
         return _eventa._eventTicketSold;
 
     }
     // Create a function to update the number of tickets sold 
-    function updateEventTicketSold(uint _id, uint amount) public {
+    function updateEventTicketSold(uint128 _id, uint128 amount) public {
         Event storage _eventa = events[_id];
         _eventa._eventTicketSold += amount;
     }
 
-    // Modifying the minting to allow payments and also checking the ability to purchase the tickets.
-    // Add Max Supply tracking and checking availability of tickets.
-    function buyTickets(uint256 id, uint256 amount)
+    // Creating the buy tickets function
+    function buyTickets(uint128 id, uint128 amount)
         public
         payable
     {
@@ -119,30 +105,30 @@ contract TkTBlock is ERC1155, Ownable, ERC1155Supply, Pausable {
     }
 
     //Adding the URI function to customize the URL to match the token for OpenSea compatibility
-    function uri(uint256 _id) public view virtual override returns (string memory) {
+    function uri(uint128 _id) public view virtual returns (string memory) {
             require (exists(_id), "URI Token does not exist");
             return string(abi.encodePacked(super.uri(_id),Strings.toString(_id),".json"));
     }
-    //Adding a contract level URI for OpenSea compatibility
+
     function contractURI() public pure returns (string memory){
             return "https://ipfs.io/ipfs/bafybeidlf22wc73c75gdqnl26wvjzhykwglx5djiyjdgqplclrnxxlbk3m/collection.json";
 
     }
-
     // Ability for the owner to distribute tickets a.k.a airdrop
-    function airdropTickets(uint256 _id, address[] calldata recipients, uint amount) external onlyOwner {
-            for (uint i =0; i < recipients.length; i++){
+    function airdropTickets(uint128 _id, address[] calldata recipients, uint128 amount) external onlyOwner {
+            for (uint128 i =0; i < recipients.length; i++){
                 _safeTransferFrom(msg.sender, recipients[i], _id, amount,"");
             }
     }
-    
-    //Adding a withdrawal contract so that only the owner can transfer
-    function withdraw() public onlyOwner {
-        require(address(this).balance > 0, "Balance is 0");
-        payable(owner()).transfer(address(this).balance);
+    // Function to redeem Tickets by Event Holders
+    function redeemTicket(uint128 id, uint128 amount, address account) public {
+        require(getEventId(id) > 0, "Event ID is not valid");
+        require(msg.sender == getEventHolder(id), "You are not authorized to redeem tickets for this event" );
+        require(balanceOf(account, id) >= amount, "Insufficient balance or you don't own tickets");
+        
+        _burn(account, id, amount);
     }
-
-        function _beforeTokenTransfer(address operator, address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
+    function _beforeTokenTransfer(address operator, address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
         internal
         whenNotPaused
         override(ERC1155, ERC1155Supply)
@@ -150,7 +136,7 @@ contract TkTBlock is ERC1155, Ownable, ERC1155Supply, Pausable {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
-        function setURI(string memory newuri) public onlyOwner {
+    function setURI(string memory newuri) public onlyOwner {
         _setURI(newuri);
     }
 
