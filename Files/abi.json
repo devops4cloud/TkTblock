@@ -2,9 +2,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
 				"internalType": "string",
@@ -22,14 +22,14 @@
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_eventTicketPrice",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_eventTicketSupply",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
 				"internalType": "string",
@@ -37,9 +37,14 @@
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_eventTicketSold",
-				"type": "uint256"
+				"type": "uint128"
+			},
+			{
+				"internalType": "address",
+				"name": "_eventHolder",
+				"type": "address"
 			}
 		],
 		"name": "addEvent",
@@ -50,9 +55,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
 				"internalType": "address[]",
@@ -60,9 +65,9 @@
 				"type": "address[]"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "amount",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"name": "airdropTickets",
@@ -71,7 +76,36 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint128",
+				"name": "id",
+				"type": "uint128"
+			},
+			{
+				"internalType": "uint128",
+				"name": "amount",
+				"type": "uint128"
+			}
+		],
+		"name": "buyTickets",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "_payees",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_shares",
+				"type": "uint256[]"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -101,22 +135,29 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
+				"indexed": true,
+				"internalType": "contract IERC20",
+				"name": "token",
+				"type": "address"
 			},
 			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
 				"internalType": "uint256",
 				"name": "amount",
 				"type": "uint256"
 			}
 		],
-		"name": "buyTickets",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
+		"name": "ERC20PaymentReleased",
+		"type": "event"
 	},
 	{
 		"anonymous": false,
@@ -149,6 +190,117 @@
 		],
 		"name": "Paused",
 		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "shares",
+				"type": "uint256"
+			}
+		],
+		"name": "PayeeAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "PaymentReceived",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "PaymentReleased",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint128",
+				"name": "id",
+				"type": "uint128"
+			},
+			{
+				"internalType": "uint128",
+				"name": "amount",
+				"type": "uint128"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "redeemTicket",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "release",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "release",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -376,50 +528,14 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
-				"internalType": "string",
-				"name": "_eName",
-				"type": "string"
-			}
-		],
-		"name": "updateEventName",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_eventTicketPrice",
-				"type": "uint256"
-			}
-		],
-		"name": "updateEventTicketPrice",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "amount",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"name": "updateEventTicketSold",
@@ -428,29 +544,8 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_eventTicketSupply",
-				"type": "uint256"
-			}
-		],
-		"name": "updateEventTicketSupply",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"stateMutability": "payable",
+		"type": "receive"
 	},
 	{
 		"inputs": [
@@ -524,9 +619,9 @@
 		"name": "events",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_event_Id",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
 				"internalType": "string",
@@ -544,14 +639,14 @@
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_eventTicketPrice",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_eventTicketSupply",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
 				"internalType": "string",
@@ -559,9 +654,14 @@
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_eventTicketSold",
-				"type": "uint256"
+				"type": "uint128"
+			},
+			{
+				"internalType": "address",
+				"name": "_eventHolder",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -589,9 +689,9 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"name": "getEventDetails",
@@ -617,14 +717,14 @@
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
 			},
 			{
 				"internalType": "string",
@@ -632,9 +732,14 @@
 				"type": "string"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -643,17 +748,36 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
+			}
+		],
+		"name": "getEventHolder",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint128",
+				"name": "_id",
+				"type": "uint128"
 			}
 		],
 		"name": "getEventId",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"stateMutability": "view",
@@ -662,36 +786,17 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "getEventName",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"name": "getEventTicketPrice",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"stateMutability": "view",
@@ -700,17 +805,17 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"name": "getEventTicketSold",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"stateMutability": "view",
@@ -719,17 +824,17 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "_id",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"name": "getEventTicketSupply",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"stateMutability": "view",
@@ -788,6 +893,130 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "payee",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "releasable",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "releasable",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "released",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "released",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "shares",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "bytes4",
 				"name": "interfaceId",
 				"type": "bytes4"
@@ -799,6 +1028,51 @@
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"name": "totalReleased",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalReleased",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalShares",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -827,8 +1101,27 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_id",
+				"name": "",
 				"type": "uint256"
+			}
+		],
+		"name": "uri",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint128",
+				"name": "_id",
+				"type": "uint128"
 			}
 		],
 		"name": "uri",
