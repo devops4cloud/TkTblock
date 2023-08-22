@@ -13,9 +13,9 @@ with the use of blockchain technology.
 
 <img src="/Images/UJ-holder.png" width="1000" height="600">
 
-## User Journey - Organizer 
+## User Journey - Event Organizer 
 
-<img src="/Images/UJ-holder.png" width="1000" height="600">
+<img src="/Images/UJ-Event%20Organizer.png" width="1200" height="600">
 
 ## Technologies
 Multiple technologies and statistical models are used to build the insider Application
