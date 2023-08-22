@@ -1,5 +1,5 @@
 # TkTblock Blockchain Digital Ticketing - Team 2 
-<img src="/Images/Pic_1.png" width="1000" height="600">
+<img src="/Images/BC.png" width="1000" height="600">
 
 ---
 The TKTblock application has the potential to resolve many pressing issues currently facing the event industry and offers a faster way to create traceable and transferable tickets. It also enhances security, ensures ticket validity, and provides more control over the secondary market.
