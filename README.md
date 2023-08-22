@@ -3,7 +3,7 @@
 
 ---
 The TKTblock application has the potential to resolve many pressing issues currently facing the event industry and offers a faster way to create traceable and transferable tickets. It also enhances security, ensures ticket validity, and provides more control over the secondary market.
-with the use of blockchain technology.
+With the use of blockchain technology.
 
 ## User Journey - Customer 
 
