@@ -3,13 +3,17 @@
 
 ---
 The TKTblock application has the potential to resolve many pressing issues currently facing the event industry and offers a faster way to create traceable and transferable tickets. It also enhances security, ensures ticket validity, and provides more control over the secondary market.
-
+with the use of blockchain technology.
 
 ## User Journey - Customer 
 
 <img src="/Images/UJ-customer.png" width="1000" height="600">
 
-## User Journey - 
+## User Journey - holder 
+
+<img src="/Images/UJ-holder.png" width="1000" height="600">
+
+## User Journey - Organizer 
 
 <img src="/Images/UJ-holder.png" width="1000" height="600">
 
