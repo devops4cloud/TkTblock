@@ -1,3 +1,6 @@
 JoeScorsone:
   password: $pbkdf2-sha256$29000$2ltrjbG2NkaIUcoZY2ztHQ$AWL76Qm4BHzE2g5SADhsi8SsWLGBVS2YbelrUu5MdlE
   user_type: Owner
+luis:
+  password: $pbkdf2-sha256$29000$zjmnFEJoLUUoZUypFUIIoQ$Lzh4Bl4hBVOpehv/Bo3pydV/AFi1RrFiaudCpSb2u7M
+  user_type: owner
