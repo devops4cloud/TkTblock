@@ -57,6 +57,8 @@ def authenticate_user(username, password):
     if username in users:
         stored_password = users[username]["password"]
         if pbkdf2_sha256.verify(password, stored_password):
+            st.session_state["auth"] = True
+            st.session_state["role"] =  users[username]["user_type"]
             return True
     return False
 
@@ -85,79 +87,73 @@ if menu == "Login":
         if authenticate_user(username, password):
             st.success(f"Welcome, {username}!")
             login_section.empty()  # Clear the login section
-            role = "event_holder"
-
-            if role == "owner":
-                contract_owner = ContractOwner(CONTRACT_ADDRESS, CONTRACT_ABI, w3)
-
-                st.title('Owner/Admin Section')
-
-                select_transaction = st.selectbox("Select transaction:"
-                                                ,("Create Event", "Buy Tickets","Get Event Details","Get Event Tickets sold",
-                                                    "Get Event ticket price","Air Drop Tickets","Get Event Tickets Supply",
-                                                    "Check an account balance","Release","Ticket Transfer"))
-
-                if select_transaction == "Create Event":
-                    contract_owner.addEvent_form()
-                elif select_transaction == "Buy Tickets":
-                    contract_owner.buyTickets_form()
-                elif select_transaction == "Get Event Details":
-                    contract_owner.getEventDetails_form()
-                elif select_transaction == "Get Event Tickets sold":
-                    contract_owner.getEventTicketSold_form()
-                elif select_transaction == "Get Event ticket price":
-                    contract_owner.getEventTicketPrice_form()
-                elif select_transaction == "Air Drop Tickets":
-                    contract_owner.airdropTickets_form()
-                elif select_transaction == "Get Event Tickets Supply":
-                    contract_owner.getEventTicketSupply_form()
-                elif select_transaction == "Check an account balance":
-                    contract_owner.balanceOf_form()
-                elif select_transaction == "Release":
-                    contract_owner.release_form()
-                elif select_transaction == "Ticket Transfer":
-                    contract_owner.safeBatchTransferFrom_form()
-
-            elif role == "user":
-                contract_customer = ContractCustomer(CONTRACT_ADDRESS, CONTRACT_ABI, w3)
-                
-                st.title('Customer Section')
-
-                select_transaction = st.selectbox("Select transaction",("Buy Tickets","Ticket Transfer",
-                                                                        "Check Ticket Balance","View Event Details"))
-                
-                if select_transaction == "Buy Tickets":
-                    contract_customer.buyTickets_form()
-                elif select_transaction == "Ticket Transfer":
-                    contract_customer.safeTransferFrom_form()
-                elif select_transaction == "Check Ticket Balance":
-                    contract_customer.balanceOf_form()
-                elif select_transaction == "View Event Details":
-                    contract_customer.getEventDetails_form()
-
-            elif role == "event_holder":
-                contract_eventholder = ContractEventHolder(CONTRACT_ADDRESS, CONTRACT_ABI, w3)
-                
-                st.title('Event Holder Section')
-
-                select_transaction = st.selectbox("Select transaction",("Redeem Tickets","Ticket Transfer",
-                                                                        "Check Ticket Balance","View Event Details",
-                                                                        "Get Event Tickets Sold"))
-                
-                if select_transaction == "Redeem Tickets":
-                    contract_eventholder.redeemTicket_form()
-                elif select_transaction == "Ticket Transfer":
-                    contract_eventholder.safeTransferFrom_form()
-                elif select_transaction == "Check Ticket Balance":
-                    contract_eventholder.balanceOf_form()
-                elif select_transaction == "View Event Details":
-                    contract_eventholder.getEventDetails_form()
-                elif select_transaction == "Get Event Tickets Sold":
-                    contract_eventholder.getEventTicketSold_form()
-    
         else:
             st.error("Authentication failed. Please check your credentials.")
 
 
 # Uncomment the following line to display user data for debugging purposes.
 #st.write(load_user_data())
+
+if "auth" in st.session_state and st.session_state["auth"]:
+    role = st.session_state["role"]
+    if role == "owner":
+        contract_owner = ContractOwner(CONTRACT_ADDRESS, CONTRACT_ABI, w3)  
+        st.title('Owner/Admin Section') 
+        select_transaction = st.selectbox("Select transaction:"
+                                        ,("Create Event", "Buy Tickets","Get Event Details","Get Event Tickets sold",
+                                            "Get Event ticket price","Air Drop Tickets","Get Event Tickets Supply",
+                                            "Check an account balance","Release","Ticket Transfer"))    
+        if select_transaction == "Create Event":
+            contract_owner.addEvent_form()
+        elif select_transaction == "Buy Tickets":
+            contract_owner.buyTickets_form()
+        elif select_transaction == "Get Event Details":
+            contract_owner.getEventDetails_form()
+        elif select_transaction == "Get Event Tickets sold":
+            contract_owner.getEventTicketSold_form()
+        elif select_transaction == "Get Event ticket price":
+            contract_owner.getEventTicketPrice_form()
+        elif select_transaction == "Air Drop Tickets":
+            contract_owner.airdropTickets_form()
+        elif select_transaction == "Get Event Tickets Supply":
+            contract_owner.getEventTicketSupply_form()
+        elif select_transaction == "Check an account balance":
+            contract_owner.balanceOf_form()
+        elif select_transaction == "Release":
+            contract_owner.release_form()
+        elif select_transaction == "Ticket Transfer":
+            contract_owner.safeBatchTransferFrom_form() 
+    elif role == "user":
+        contract_customer = ContractCustomer(CONTRACT_ADDRESS, CONTRACT_ABI, w3)
+
+        st.title('Customer Section')    
+        select_transaction = st.selectbox("Select transaction",("Buy Tickets","Ticket Transfer",
+                                                                "Check Ticket Balance","View Event Details"))
+
+        if select_transaction == "Buy Tickets":
+            contract_customer.buyTickets_form()
+        elif select_transaction == "Ticket Transfer":
+            contract_customer.safeTransferFrom_form()
+        elif select_transaction == "Check Ticket Balance":
+            contract_customer.balanceOf_form()
+        elif select_transaction == "View Event Details":
+            contract_customer.getEventDetails_form()    
+    elif role == "event_holder":
+        contract_eventholder = ContractEventHolder(CONTRACT_ADDRESS, CONTRACT_ABI, w3)
+
+        st.title('Event Holder Section')    
+        select_transaction = st.selectbox("Select transaction",("Redeem Tickets","Ticket Transfer",
+                                                                "Check Ticket Balance","View Event Details",
+                                                                "Get Event Tickets Sold"))
+
+        if select_transaction == "Redeem Tickets":
+            contract_eventholder.redeemTicket_form()
+        elif select_transaction == "Ticket Transfer":
+            contract_eventholder.safeTransferFrom_form()
+        elif select_transaction == "Check Ticket Balance":
+            contract_eventholder.balanceOf_form()
+        elif select_transaction == "View Event Details":
+            contract_eventholder.getEventDetails_form()
+        elif select_transaction == "Get Event Tickets Sold":
+            contract_eventholder.getEventTicketSold_form()
+    
