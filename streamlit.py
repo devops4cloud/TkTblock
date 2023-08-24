@@ -125,6 +125,7 @@ if "auth" in st.session_state and st.session_state["auth"]:
             contract_owner.safeBatchTransferFrom_form() 
     elif role == "user":
         contract_customer = ContractCustomer(CONTRACT_ADDRESS, CONTRACT_ABI, w3)
+        
 
         st.title('Customer Section')    
         select_transaction = st.selectbox("Select transaction",("Buy Tickets","Ticket Transfer",

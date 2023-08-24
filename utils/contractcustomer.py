@@ -9,7 +9,7 @@ class ContractCustomer:
 
     def buyTickets(self, id, amount):
         function = self.contract.functions.buyTickets
-        return function(id, amount).call()
+        return function(id, amount).transact()
 
     def buyTickets_form(self):
         with st.form(key="buyTickets_form"):
@@ -27,8 +27,8 @@ class ContractCustomer:
 
     def safeTransferFrom_form(self):
         with st.form(key="safeTransferFrom_form"):
-            fromaddress = st.text_input("from")
-            to = st.text_input("to")
+            fromaddress =  st.selectbox("from",self.w3.eth.accounts)
+            to =  st.selectbox("to",self.w3.eth.accounts)
             id = st.number_input("id",min_value=0)
             amount = st.number_input("amount",min_value=0)
             data = st.text_input("data")
@@ -44,7 +44,7 @@ class ContractCustomer:
 
     def balanceOf_form(self):
         with st.form(key="balanceOf_form"):
-            account = st.text_input("account")
+            account =  st.selectbox("account",self.w3.eth.accounts)
             id = st.number_input("id",min_value=0)
             submit_button = st.form_submit_button(label="Call")
 

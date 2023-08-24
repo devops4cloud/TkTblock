@@ -1,18 +1,20 @@
 import streamlit as st
 from web3 import Web3
 from datetime import date
+from eth_abi import encode
+
 
 class ContractOwner:
     def __init__(self, contract_address: str, contract_abi: dict, w3: Web3):
         self.w3 = w3
         self.functions = contract_abi
         self.contract = w3.eth.contract(address=contract_address, abi=contract_abi)
-        print(w3.is_connected())
+        #print(w3.eth.accounts)
 
     def addEvent(self, _id, _eventName, _eventDate, _eventVenue, _eventTicketPrice, _eventTicketSupply, _eventURL, _eventTicketSold, _eventHolder):
         function = self.contract.functions.addEvent
-        return function(_id, _eventName, _eventDate, _eventVenue, _eventTicketPrice, _eventTicketSupply, _eventURL, _eventTicketSold, _eventHolder).call()
-
+        return function(_id, _eventName, _eventDate, _eventVenue, _eventTicketPrice, _eventTicketSupply, _eventURL, _eventTicketSold, _eventHolder).transact()
+    
     def addEvent_form(self):
         with st.form(key="addEvent_form"):
             _id = st.number_input("_id",min_value=0)
@@ -23,16 +25,16 @@ class ContractOwner:
             _eventTicketSupply = st.number_input("_eventTicketSupply",min_value=0)
             _eventURL = st.text_input("_eventURL")
             _eventTicketSold = st.number_input("_eventTicketSold",min_value=0)
-            _eventHolder = st.text_input("_eventHolder")
+            _eventHolder = st.selectbox("_eventHolder",self.w3.eth.accounts)  #st.text_input("_eventHolder")
             submit_button = st.form_submit_button(label="Call")
 
             if submit_button:
-                result = self.addEvent(_id, _eventName, _eventDate, _eventVenue, _eventTicketPrice, _eventTicketSupply, _eventURL, _eventTicketSold, _eventHolder)
+                result = self.addEvent(_id, _eventName, str(_eventDate), _eventVenue, _eventTicketPrice, _eventTicketSupply, _eventURL, _eventTicketSold, _eventHolder)
                 st.write(result)
 
     def buyTickets(self, id, amount):
         function = self.contract.functions.buyTickets
-        return function(id, amount).call()
+        return function(id, amount).transact()
 
     def buyTickets_form(self):
         with st.form(key="buyTickets_form"):
@@ -98,17 +100,19 @@ class ContractOwner:
 
     def airdropTickets(self, _id, recipients, amount):
         function = self.contract.functions.airdropTickets
-        return function(_id, recipients, amount).call()
+        #return function(encode(['uint128','address[]','uint128'],[_id, [recipients], amount])).call()
+        return function(_id, [recipients], amount).call()
 
     def airdropTickets_form(self):
         with st.form(key="airdropTickets_form"):
             _id = st.number_input("_id",min_value=0)
-            recipients = st.text_input("recipients")
+            recipients = st.selectbox("recipients",self.w3.eth.accounts) #st.text_input("recipients")
+            print(recipients)
             amount = st.number_input("amount",min_value=0)
             submit_button = st.form_submit_button(label="Call")
-
+ 
             if submit_button:
-                result = self.airdropTickets(_id, [recipients], [amount])
+                result = self.airdropTickets(_id,recipients,amount)
                 st.write(result)
 
     def getEventTicketSupply(self, _id):
@@ -130,7 +134,7 @@ class ContractOwner:
 
     def balanceOf_form(self):
         with st.form(key="balanceOf_form"):
-            account = st.text_input("account")
+            account = st.selectbox("account",self.w3.eth.accounts) #st.text_input("recipients")
             id = st.number_input("id",min_value=0)
             submit_button = st.form_submit_button(label="Call")
 
@@ -153,19 +157,19 @@ class ContractOwner:
 
     def safeBatchTransferFrom(self, fromaddress, to, ids, amounts, data):
         function = self.contract.functions.safeBatchTransferFrom
-        return function(fromaddress, to, ids, amounts, data).call()
+        return function(fromaddress, to, [ids], [amounts], data).call()
 
     def safeBatchTransferFrom_form(self):
         with st.form(key="safeBatchTransferFrom_form"):
-            fromaddresss = st.text_input("from")
-            to = st.text_input("to")
-            ids = st.number_input("ids",min_value=0)
+            fromaddresss = st.selectbox("from",self.w3.eth.accounts)
+            to = st.selectbox("to",self.w3.eth.accounts)
+            ids = st.number_input("event",min_value=0)
             amounts = st.number_input("amounts",min_value=0)
             data = st.text_input("data")
             submit_button = st.form_submit_button(label="Call")
 
             if submit_button:
-                result = self.safeBatchTransferFrom(fromaddresss, to, [ids], [amounts], [data])
+                result = self.safeBatchTransferFrom(fromaddresss, to, ids, amounts, data)
                 st.write(result)
 
 def dynamic_inputs(input_name):
