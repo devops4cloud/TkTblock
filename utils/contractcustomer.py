@@ -7,9 +7,13 @@ class ContractCustomer:
         self.functions = contract_abi
         self.contract = w3.eth.contract(address=contract_address, abi=contract_abi)
 
+    def getEventTicketPrice(self, _id):
+        function = self.contract.functions.getEventTicketPrice
+        return function(_id).call()
+
     def buyTickets(self, id, amount):
         function = self.contract.functions.buyTickets
-        return function(id, amount).transact()
+        return function(id, amount).transact({'gasPrice':20000000000,'value':amount * self.getEventTicketPrice(id)})
 
     def buyTickets_form(self):
         with st.form(key="buyTickets_form"):
@@ -23,7 +27,7 @@ class ContractCustomer:
 
     def safeTransferFrom(self, fromaddress, to, id, amount, data):
         function = self.contract.functions.safeTransferFrom
-        return function(fromaddress, to, id, amount, data).call()
+        return function(fromaddress, to, id, amount, bytes(data,encoding='utf-8')).transact()
 
     def safeTransferFrom_form(self):
         with st.form(key="safeTransferFrom_form"):

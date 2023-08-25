@@ -9,7 +9,7 @@ class ContractEventHolder:
 
     def safeTransferFrom(self, fromaddress, to, id, amount, data):
         function = self.contract.functions.safeTransferFrom
-        return function(fromaddress, to, id, amount, data).call()
+        return function(fromaddress, to, id, amount, bytes(data,encoding='utf-8')).transact()
 
     def safeTransferFrom_form(self):
         with st.form(key="safeTransferFrom_form"):
@@ -53,7 +53,7 @@ class ContractEventHolder:
 
     def redeemTicket(self, id, amount, account):
         function = self.contract.functions.redeemTicket
-        return function(id, amount, account).call()
+        return function(id, amount, account).transact()
 
     def redeemTicket_form(self):
         with st.form(key="redeemTicket_form"):

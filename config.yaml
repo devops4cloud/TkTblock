@@ -6,4 +6,7 @@ luis:
   user_type: event_holder
 luis1:
   password: $pbkdf2-sha256$29000$gbAWAuBcSykFgJBSSknpnQ$9a30DYs6MTaPtL5ixW6M05Hk9LW.KruVipwowHaBCws
+  user_type: user
+luis4:
+  password: $pbkdf2-sha256$29000$LuVcy9mbEwLAeK.1FoJwrg$JBtlCYrCTH.r8OY0lGWcxccANSAgWqshP05Pz/rbyMM
   user_type: owner

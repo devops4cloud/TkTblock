@@ -30,6 +30,7 @@ PRIVATE_KEY = os.getenv('PRIVATE_KEY')
 w3 = Web3(Web3.HTTPProvider(ETHEREUM_NODE_URL))
 w3.eth.default_account = w3.eth.account.from_key(PRIVATE_KEY).address
 
+
 # Load user data from YAML file
 def load_user_data():
     with open("config.yaml", "r") as file:
