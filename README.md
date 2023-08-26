@@ -1,5 +1,5 @@
-# TkTblock Blockchain Digital Ticketing - Team 2 
-<img src="/Images/BC.png" width="900" height="400">
+# TkTblock - Digital Ticketing Powered by Blockchain
+<img src="/Images/tktblock.png" width="900" height="600">
 
 ---
 The TKTblock application has the potential to resolve many pressing issues currently facing the event industry and offers a faster way to create traceable and transferable tickets. It also enhances security, ensures ticket validity, and provides more control over the secondary market.
@@ -12,12 +12,6 @@ With the use of blockchain technology.
 * Free ticket giveaways (airdrop)
 * Event changes are made
 * Event promotions
-  
-## Platform Capabilities-Artist
-* Specifies the event agenda
-* Requests the commission shares
-* Organizes the event
-* Promotes the event
   
 ## Platform Capabilities-EventSpace
 * Provides seating capacity
@@ -34,15 +28,15 @@ With the use of blockchain technology.
 
 ## User Journey - Customer 
 
-<img src="/Images/UJ-customer.png" width="1000" height="600">
+<img src="/Images/UJ-customer.png" width="900" height="500">
 
 ## User Journey - holder 
 
-<img src="/Images/UJ-eventholder.png" width="1000" height="600">
+<img src="/Images/UJ-eventholder.png" width="900" height="500">
 
 ## User Journey - Event Organizer 
 
-<img src="/Images/UJ-Event%20Organizer.png" width="3000" height="400">
+<img src="/Images/UJ-Event%20Organizer.png" width="3000" height="500">
 
 ## Technologies
 Multiple technologies and statistical models are used to build the insider Application
