@@ -5,6 +5,33 @@
 The TKTblock application has the potential to resolve many pressing issues currently facing the event industry and offers a faster way to create traceable and transferable tickets. It also enhances security, ensures ticket validity, and provides more control over the secondary market.
 With the use of blockchain technology.
 
+# Platform Capabilities-Contract Owner 
+* Setup the smart contract
+* Initiates the event with details
+* Setup the commission shares between the Artist, Event space, and contract Owner
+* Free ticket giveaways (airdrop)
+* Event changes are made
+* Event promotions
+  
+## Platform Capabilities-Artist
+* Specifies the event agenda
+* Requests the commission shares
+* Organizes the event
+* Promotes the event
+  
+## Platform Capabilities-EventSpace
+* Provides seating capacity
+* Admits the fans Check ticket balances
+* Verifies ticket authenticity
+* Requests the commission shares
+* Promotes the event
+  
+## Platform Capabilities-Customer
+* Buy tickets
+* Check balances
+* Transfer tickets
+* Check event details
+
 ## User Journey - Customer 
 
 <img src="/Images/UJ-customer.png" width="1000" height="600">
