@@ -37,6 +37,49 @@ The user of the application will have to download Python,Python package manager 
    - [How to install Git ](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
    - Streamlit : pip install streamlit
 
+
+### Usage
+
+- Clone repository:
+
+```bash
+
+$ git clone https://github.com/devops4cloud/TkTblock.git
+$ cd ./TkTblock
+
+```
+- Open REMIX Studio: https://remix.ethereum.org/
+   - Copy or upload events.sol
+   - Compile file with solidity 0.8.0
+   - Deploy to test network (Ganache is prefered)
+   - Copy Contract Address
+  
+
+- Install libraries:
+
+```bash
+
+$ pip install streamlit
+$ pip install web3
+$ pip install passlib
+
+```
+
+- Edit .env file
+   - Rename empty_BLOCK.env to BLOCK.env
+   - Add the following parameters:
+      - CONTRACT_ADDRESS=CONTRACT ADDRESS FROM TEST NETWORK
+      - ABI_FILE=./Files/abi.json
+      - ETHEREUM_NODE_URL= TEST NETWORK ADDRESS
+      - PRIVATE_KEY= CONTRACT OWNER PRIVATE KEY
+
+- Run streamlit app
+
+```bash
+$ streamlit run streamlit.py
+
+```
+
 ## Contributors
 
 This application is developed by [Luis](https://github.com/lumiroga), [Joe](https://github.com/EthernetWink), [Mario](https://github.com/devops4cloud), [AlGhalia](https://github.com/alghalia), [Naf](https://github.com/nafeezurc)
